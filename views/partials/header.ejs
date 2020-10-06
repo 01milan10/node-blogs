@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="font-nunito h-screen">
+    <nav class="bg-secondary uppercase">
+      <div
+        class="max-w-screen-lg mx-auto flex justify-between h-20 p-2 items-center text-gray-300"
+      >
+        <a href="/" class="text-2xl font-semibold">Basic Blogs</a>
+        <div>
+          <ul class="text-textColor">
+            <% if (user) { %>
+            <span> <%= user.fullName %> </span>
+            <a
+              href="/blogs/create"
+              class="ml-2 p-2 border border-textColor rounded-full hover:bg-textColor hover:text-primary"
+              >Create Blog</a
+            >
+            <a
+              href="/blogs/<%= user._id %> "
+              class="ml-2 p-2 border border-textColor rounded-full hover:bg-textColor hover:text-primary"
+              >Blogs</a
+            >
+            <a
+              href="/logout"
+              class="p-2 ml-2 border border-textColor rounded-full hover:bg-textColor hover:text-primary"
+              >Logout</a
+            >
+            <% } else { %>
+            <a
+              href="/login"
+              class="p-2 ml-2 border border-textColor rounded-full hover:bg-textColor hover:text-primary"
+              >Login</a
+            >
+            <a
+              href="/signup"
+              class="p-2 ml-2 border border-textColor rounded-full hover:bg-textColor hover:text-primary"
+              >Sign up</a
+            >
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>

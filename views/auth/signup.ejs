@@ -1,0 +1,89 @@
+<%- include('../partials/header.ejs') %>
+<form
+  class="max-w-md mx-auto mt-16 bg-gray-200 rounded-lg p-5 text-lg shadow-lg text-primary"
+>
+  <span class="text-5xl font-semibold block mb-8 text-primary">Sign up</span>
+  <div>
+    <label for="name" class="block">Name:</label>
+    <input
+      class="px-2 py-1 mb-2 w-full rounded-md"
+      type="text"
+      name="name"
+      placeholder="John Doe"
+    />
+    <div class="nameError"></div>
+  </div>
+  <div>
+    <label for="address" class="block">Address:</label>
+    <input
+      class="px-2 py-1 mb-2 w-full rounded-md"
+      type="text"
+      name="address"
+      placeholder="23 Some Street, Knowhere"
+    />
+    <div class="addressError"></div>
+  </div>
+  <div>
+    <label for="phone" class="block">Phone:</label>
+    <input
+      class="px-2 py-1 mb-2 w-full rounded-md"
+      type="text"
+      name="phone"
+      placeholder="98xxxxxxxx"
+    />
+    <div class="phoneError"></div>
+  </div>
+  <div>
+    <label for="email" class="block">Email:</label>
+    <input
+      class="px-2 py-1 mb-2 w-full rounded-md"
+      type="text"
+      name="email"
+      placeholder="example@xyz.com"
+    />
+    <div class="emailError"></div>
+  </div>
+  <div>
+    <label for="password" class="block">Password:</label>
+    <input
+      class="px-2 py-1 mb-2 w-full rounded-md"
+      type="password"
+      name="password"
+      placeholder="*************"
+    />
+    <div class="passwordError"></div>
+  </div>
+  <div class="mt-8">
+    <button class="bg-primary py-2 px-3 rounded-full text-white">
+      Sign up
+    </button>
+  </div>
+</form>
+
+<script>
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fullName = form.name.value;
+    const address = form.address.value;
+    const phone = form.phone.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const response = await fetch("/signup", {
+        method: "POST",
+        body: JSON.stringify({ fullName, address, phone, email, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const result = await response.json();
+      if (result.user) {
+        location.assign("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>
+<%- include('../partials/footer.ejs') %>

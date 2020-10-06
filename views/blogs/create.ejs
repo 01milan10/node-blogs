@@ -1,0 +1,99 @@
+<%- include('../partials/header.ejs') %>
+<div
+  class="max-w-lg mx-auto bg-gray-200 mt-10 rounded-lg shadow-lg text-lg overflow-hidden"
+>
+  <form
+    class="p-5 text-primary"
+    data-author-id="<%= user._id %>"
+    data-author-name="<%= user.fullName %> "
+  >
+    <span class="text-3xl block my-3 uppercase font-semibold">write blog</span>
+    <div class="mb-3">
+      <label for="title">Title:</label>
+      <input
+        type="text"
+        class="mt-2 w-full p-2 shadow-md rounded-md"
+        name="title"
+      />
+      <div class="titleError text-sm text-red-600 font-semibold"></div>
+    </div>
+    <div class="mb-3">
+      <label for="image">Display image:</label>
+      <input
+        type="file"
+        class="mt-2 w-full bg-white rounded-md p-2"
+        name="image"
+      />
+      <div class="imageError text-sm text-red-600 font-semibold"></div>
+    </div>
+    <div class="mb-3">
+      <label for="blogBody">Blog:</label>
+      <textarea
+        name="blogBody"
+        cols="30"
+        rows="10"
+        class="mt-2 w-full p-2 shadow-md rounded-md"
+      ></textarea>
+      <div class="blogBodyError text-sm text-red-600 font-semibold"></div>
+    </div>
+  </form>
+  <div class="flex justify-between text-base m-3 p-3">
+    <button
+      id="submitBtn"
+      class="border-2 border-primary text-primary px-3 py-2 rounded-lg uppercase hover:bg-primary hover:text-white"
+    >
+      create
+    </button>
+    <button
+      id="cancelBtn"
+      class="px-3 py- border-2 border-red-600 text-red-600 rounded-lg uppercase hover:bg-red-600 hover:text-white"
+    >
+      cancel
+    </button>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector("form");
+  const submitBtn = document.querySelector("#submitBtn");
+  const cancelBtn = document.querySelector("#cancelBtn");
+  const titleError = document.querySelector(".titleError");
+  const imageError = document.querySelector(".imageError");
+  const blogBodyError = document.querySelector(".blogBodyError");
+  cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.assign("/");
+  });
+  submitBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const title = form.title.value;
+    const image = form.image.files[0];
+    const body = form.blogBody.value;
+    const authorId = form.dataset.authorId;
+    const authorName = form.dataset.authorName;
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("body", body);
+    formData.append("authorId", authorId);
+    formData.append("authorName", authorName);
+    formData.append("image", image);
+    try {
+      const response = await fetch("/blogs/store", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      if (result.errors) {
+        titleError.textContent = result.errors.title;
+        imageError.textContent = result.errors.image;
+        blogBodyError.textContent = result.errors.body;
+      } else {
+        window.location.assign(`/blogs/show/${result._id}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>
+
+<%- include('../partials/footer.ejs') %>

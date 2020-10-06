@@ -1,0 +1,28 @@
+<%- include('../partials/header.ejs') %>
+<div
+  class="max-w-screen-md mx-auto my-16 bg-gray-200 rounded-lg text-lg shadow-lg text-primary overflow-hidden"
+>
+  <img class="w-full" src="/uploads/<%= blog.image %> " alt="blog_image" />
+  <div class="p-5">
+    <div class="text-xs text-gray-600"><%= blog.createdAt %></div>
+    <div class="text-3xl text-primary font-semibold"><%= blog.title %></div>
+    <div class="mt-5 text-primary"><%= blog.body %></div>
+  </div>
+  <% if(user){%> <% if (blog.authorId == user._id) {%>
+  <div
+    class="bg-gray-300 p-5 border-t border-gray-500 flex justify-between text-xl"
+  >
+    <button
+      class="text-primary border-2 border-primary py-1 px-3 rounded-full hover:bg-primary hover:text-white"
+    >
+      edit
+    </button>
+    <button
+      class="text-red-600 border-2 border-red-600 py-1 px-3 rounded-full hover:bg-red-600 hover:text-white"
+    >
+      delete
+    </button>
+  </div>
+  <% } %> <% } %>
+</div>
+<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,35 @@
+<%- include('../partials/header.ejs') %>
+<main class="text-gray-700 max-w-screen-lg mx-auto">
+  <div class="blogs mt-5">
+    <% if (blogs.length>0) { %> <% blogs.forEach(blog => { %>
+    <div class="flex mb-5 bg-gray-100 rounded-lg overflow-hidden shadow-md">
+      <img
+        class="w-1/3 object-cover object-center"
+        src="/uploads/<%= blog.image %> "
+        alt=""
+      />
+      <div class="w-2/3 content m-5">
+        <div class="text-3xl font-semibold leading-relaxed text-primary">
+          <%= blog.title %>
+        </div>
+        <span class="text-xs text-gray-500"><%= blog.createdAt %> </span>
+        <div class="mt-5 text-lg text-gray-600">
+          <%= blog.body.slice(0,200) +'...' %>
+        </div>
+        <div class="flex justify-end mt-5">
+          <a
+            href="/blogs/show/<%= blog._id %> "
+            class="text-lg flex items-center text-primary"
+          >
+            Read more
+            <img class="ml-2" src="/double-arrow.png" alt="arrow-png" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <% }) %> <% } else { %>
+    <h2>there are no blogs</h2>
+    <% } %>
+  </div>
+</main>
+<%- include('../partials/footer.ejs') %>
